@@ -52,8 +52,7 @@ def main(screen_size="800x600"):
     lbl_login.grid(row=0, column=0)
 
     #creates a box to allow for user input
-    username = ''
-    user_entry = ttk.Entry(root, name=username)
+    user_entry = ttk.Entry(root)
     user_entry.grid(row=1, column=0)
     #sets the enter key to loging
     user_entry.bind('<Return>', lambda e:login_check())

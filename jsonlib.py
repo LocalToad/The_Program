@@ -18,7 +18,7 @@ def write_file_dict(filename, key, value=None):
         # retreives the dict on the file
         dict = read_file(filename)
         #if the key given doesnt exist in the dict on the file
-        if key not in list.key():
+        if key not in dict.keys():
             #add the data to the list
             dict[key] = {"username":value}
     #if the file doesnt have anything on it

@@ -13,31 +13,36 @@ def main_menu(settings):
     #if the user has no setting params and is new this will generate new ones for them
     if len(settings.keys()) == 1:
         #this is all available setting choices for drop down windows
-        income_types = ('hourly','salary')
-        screen_sizes = ("400x300","800x600", "1200x900", "1920x1080")
+        income_types = ('income type', 'hourly','salary')
+        screen_sizes = ('screen size',"400x300","800x600", "1200x900", "1920x1080")
 
         #this function commits the settings the user inputs
         def commit_setup():
-            #grab the name variable from the name_entry feild
-            name = name_entry.get()
-            #grab the income type variable from the income feild
-            type = income.get()
-            #grabs the income amount from the income amount entry feild
-            amount = income_amount_entry.get()
-            #grabs the screen size from the screen choice feild
-            screen = screen_choice.get()
-            #grabs the master settings from the json file holding all the users and their settings
-            master = j.read_file('ignore/all_users.json')
-            #filtering for the current user within the master set inster the data into the feilds in the set
-            #if the dictionary doesnt have a key this is also create a key and place the value in the key value pair
-            master[settings['username']]['name'] = name
-            master[settings['username']]['income_type'] = type
-            master[settings['username']]['income_amount'] = amount
-            master[settings['username']]['screen_size'] = screen
-            #this writes the updated master data dict back to the file overwriting the old data
-            j.write_to_file('ignore/all_users.json', master)
-            #this reboots the program without closing the window
-            main_menu(settings)
+            # makes sure the entry feilds are full and then should reveile the button to confirm
+            if name_entry.get() != "" and income_amount_entry.get() != "" and income.get() != income_types[0] and screen_choice.get() != screen_sizes[0]:
+                #grab the name variable from the name_entry feild
+                name = name_entry.get()
+                #grab the income type variable from the income feild
+                type = income.get()
+                #grabs the income amount from the income amount entry feild
+                amount = income_amount_entry.get()
+                #grabs the screen size from the screen choice feild
+                screen = screen_choice.get()
+                #grabs the master settings from the json file holding all the users and their settings
+                master = j.read_file('ignore/all_users.json')
+                #filtering for the current user within the master set inster the data into the feilds in the set
+                #if the dictionary doesnt have a key this is also create a key and place the value in the key value pair
+                master[settings['username']]['name'] = name
+                master[settings['username']]['income_type'] = type
+                master[settings['username']]['income_amount'] = amount
+                master[settings['username']]['screen_size'] = screen
+                #this writes the updated master data dict back to the file overwriting the old data
+                j.write_to_file('ignore/all_users.json', master)
+                #this reboots the program without closing the window
+                root.destroy()
+                main_menu(master[settings['username']])
+            else:
+                lbl.configure(text="Please fill out all the fields before confirming")
 
         #sets up a frame for the settings within the window
         root.geometry("800x600")
@@ -58,7 +63,7 @@ def main_menu(settings):
 
         #variable to save the incoming value to
         income = tk.StringVar(setup)
-        income.set(income_types[0])
+        income.set('Input Income Type')
         #this is a drop down menu for selecting the income type
         income_type = ttk.OptionMenu(setup,income, *income_types)
         income_type.grid(row=2, column=0, columnspan=2)
@@ -73,12 +78,11 @@ def main_menu(settings):
 
         #this is a variable to save the incoming value
         screen_choice = tk.StringVar(setup)
-        screen_choice.set(screen_sizes[1])
+        screen_choice.set('Input Screen Size')
         #this is a drop down menu for the user to select screen size default of this window
         screen_size = ttk.OptionMenu(setup,screen_choice,*screen_sizes)
         screen_size.grid(row=4, column=0, columnspan=2)
 
-        #i need to write some function here that double checks that the user has all of the feilds filled so we can proceed without crashing
 
         #this button confirms that the user is done and commits the settings
         btn = ttk.Button(setup, text="Confirm", command=commit_setup)
@@ -102,7 +106,7 @@ def main_menu(settings):
             pass_month_btn.grid(row=5, column=0)
 
         #this is a tab used for changing user settings, when this tab is closed this should fully close out the whole screen and reboot, we will warn the user before commiting
-        def settings_tab()
+        def settings_tab():
             #this builds the frame
             settings = ttk.Frame(root)
             settings.grid(row=1, column=0, sticky="nsew")
@@ -131,4 +135,5 @@ def main_menu(settings):
         #this is a button for the user to click on to change to the expenses tab
         expense_btn = ttk.Button(root, text="Expenses", command=expense_tab)
         expense_btn.grid(row=0, column=2)
+    root.mainloop()
 
