@@ -134,6 +134,39 @@ def main_menu(settings):
             main = ttk.Frame(root)
             main.grid(row=1, column=0, sticky="nsew", columnspan=10)
 
+            #label for the income section
+            income_lbl = ttk.Label(main, text="Income")
+            income_lbl.grid(row=0, column=0, columnspan=2)
+
+            lbl_type = ttk.Label(main, text="Income Type")
+            lbl_type.grid(row=1, column=0)
+
+            lbl_amount = ttk.Label(main, text="Income This Month")
+            lbl_amount.grid(row=1, column=1)
+
+            #the type of income the user uses
+            income_type_lbl = ttk.Label(main, text=settings['income_type'])
+            income_type_lbl.grid(row=2, column=0)
+
+            #label for the income section
+            expense_lbl = ttk.Label(main, text="Income")
+            expense_lbl.grid(row=3, column=0, columnspan=2)
+
+            lbl_type = ttk.Label(main, text="Income Type")
+            lbl_type.grid(row=3, column=0)
+
+            lbl_amount = ttk.Label(main, text="Income This Month")
+            lbl_amount.grid(row=4, column=1)
+
+            #the type of income the user uses
+            income_type_lbl = ttk.Label(main, text=settings['income_type'])
+            income_type_lbl.grid(row=4, column=0)
+
+            monthly_income_lbl = ttk.Label(main, text='holder for total_income var')
+            monthly_income_lbl.grid(row=2, column=1)
+
+
+
             #this button should be placed at the bottom of the list
             pass_month_btn = ttk.Button(main, text="Pass Month", command=expense_tab)
             pass_month_btn.grid(row=5, column=0)
@@ -146,7 +179,7 @@ def main_menu(settings):
             print(settings['username'])
             # label that prompts the user to enter their settings
             lbl = ttk.Label(settings_frame, text=f"{settings["username"]} please enter your settings bellow")
-            lbl.grid(row=0, column=0)
+            lbl.grid(row=0, column=0, columnspan=2)
 
             # label denoting name
             lbl_name = ttk.Label(settings_frame, text="Name")
@@ -174,6 +207,9 @@ def main_menu(settings):
             # this is a variable to save the incoming value
             screen_choice = tk.StringVar(settings_frame)
             screen_choice.set('Input Screen Size')
+            #this is a drop down menu for the user to select screen size default of this window
+            screen_size = ttk.OptionMenu(settings_frame,screen_choice,*screen_sizes)
+            screen_size.grid(row=4, column=0, columnspan=2)
 
             #this button confirms that the user is done and commits the settings
             btn = ttk.Button(settings_frame, text="Confirm", command=commit_setup)
