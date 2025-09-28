@@ -33,10 +33,16 @@ def main_menu(settings):
                 master = j.read_file('ignore/all_users.json')
                 #filtering for the current user within the master set inster the data into the feilds in the set
                 #if the dictionary doesnt have a key this is also create a key and place the value in the key value pair
-                master[settings['username']]['name'] = name
-                master[settings['username']]['income_type'] = type
-                master[settings['username']]['income_amount'] = amount
-                master[settings['username']]['screen_size'] = screen
+                setting=master[settings['username']]
+                setting['name'] = name
+                setting['income_type'] = type
+                setting['income_amount'] = amount
+                setting['screen_size'] = screen
+                setting['hours']=0
+                setting['total_expenses']=0
+                setting['monthly_expenses']=0
+                setting['portfolio']={'cash':0,'stock_value':0}
+
                 #this writes the updated master data dict back to the file overwriting the old data
                 j.write_to_file('ignore/all_users.json', master)
                 #this reboots the program without closing the window
@@ -147,29 +153,44 @@ def main_menu(settings):
             #the type of income the user uses
             income_type_lbl = ttk.Label(main, text=settings['income_type'])
             income_type_lbl.grid(row=2, column=0)
-
-            #label for the income section
-            expense_lbl = ttk.Label(main, text="Income")
-            expense_lbl.grid(row=3, column=0, columnspan=2)
-
-            lbl_type = ttk.Label(main, text="Income Type")
-            lbl_type.grid(row=3, column=0)
-
-            lbl_amount = ttk.Label(main, text="Income This Month")
-            lbl_amount.grid(row=4, column=1)
-
-            #the type of income the user uses
-            income_type_lbl = ttk.Label(main, text=settings['income_type'])
-            income_type_lbl.grid(row=4, column=0)
-
-            monthly_income_lbl = ttk.Label(main, text='holder for total_income var')
+            monthly_income_lbl = ttk.Label(main, text=f'{settings['income_amount']*settings['hours']}')
+            if settings['income_type'] == 'salary':
+                monthly_income_lbl = ttk.Label(main, text=f'{settings['income_amount']}')
             monthly_income_lbl.grid(row=2, column=1)
 
+            #label for the income section
+            expense_lbl = ttk.Label(main, text="Expense")
+            expense_lbl.grid(row=3, column=0, columnspan=2)
 
+            lbl_totalexp = ttk.Label(main, text="Total Expenses")
+            lbl_totalexp.grid(row=4, column=0)
+
+            lbl_monthexp = ttk.Label(main, text="Monthly Expenses")
+            lbl_monthexp.grid(row=4, column=1)
+
+            #the type of income the user uses
+            expense_total = ttk.Label(main, text=f'{settings['total_expenses']}')
+            expense_total.grid(row=5, column=0)
+            monthly_total = ttk.Label(main, text=f'{settings['monthly_expenses']}')
+            monthly_total.grid(row=5, column=1)
+
+            port_lbl = ttk.Label(main, text="Portfolio")
+            port_lbl.grid(row=6, column=0,columnspan=2)
+
+            stock_cash_lbl = ttk.Label(main, text='Cash')
+            stock_cash_lbl.grid(row=7, column=0)
+
+            stock_invs_lbl = ttk.Label(main, text="Stock Value")
+            stock_invs_lbl.grid(row=7, column=1)
+
+            port_cash = ttk.Label(main, text=f'{settings['portfolio']['cash']}')
+            port_cash.grid(row=8, column=0)
+            stock_value = ttk.Label(main, text=f'{settings['portfolio']['stock_value']}')
+            stock_value.grid(row=8, column=1)
 
             #this button should be placed at the bottom of the list
             pass_month_btn = ttk.Button(main, text="Pass Month", command=expense_tab)
-            pass_month_btn.grid(row=5, column=0)
+            pass_month_btn.grid(row=10, column=0)
 
         #this is a tab used for changing user settings, when this tab is closed this should fully close out the whole screen and reboot, we will warn the user before commiting
         def settings_tab():
