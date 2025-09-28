@@ -255,6 +255,6 @@ def main_menu(settings):
 
         #this is a button for the user to click on to change to the expenses tab
         expense_btn = ttk.Button(root, text="Expenses", command=expense_tab)
-        expense_btn.grid(row=0, column=2)
+        expense_btn.grid(row=0, column=3)
     root.mainloop()
 
