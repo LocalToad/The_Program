@@ -236,6 +236,45 @@ def main_menu(settings):
             btn = ttk.Button(settings_frame, text="Confirm", command=commit_setup)
             btn.grid(row=5, column=0)
 
+        #this is the income tab, this will be used to track paydays and hours worked as well as bonuses and ect
+        def income_tab():
+
+            def submit_hours():
+                settings['hours'] += hours_entry.get()
+
+            income = ttk.Frame(root)
+            income.grid(row=1, column=0, sticky="nsew", columnspan=10)
+
+            type_lbl = ttk.Label(income, text="Income Type")
+            type_lbl.grid(row=0, column=0)
+
+            param_type_lbl = ttk.Label(income, text=settings['income_type'])
+            param_type_lbl.grid(row=0, column=1)
+
+            if settings['income_type'] == 'hourly':
+                income_amt_lbl = ttk.Label(income, text="Hourly Income")
+                income_amt_lbl.grid(row=1, column=0)
+
+                hours_lbl = ttk.Label(income, text="Hours worked")
+                hours_lbl.grid(row=2, column=0)
+
+                hours_entry = ttk.Entry(income)
+                hours_entry.grid(row=2, column=1)
+
+                hours_total = ttk.Label(income, text=settings['hours'])
+                hours_total.grid(row=3, column=0)
+
+                hours_submit = ttk.Button(income, text="Submit", command=submit_hours)
+                hours_submit.grid(row=3, column=1)
+            if settings['income_type'] == 'salary':
+                income_amt_lbl = ttk.Label(income, text="Salary")
+                income_amt_lbl.grid(row=1, column=0)
+
+            income = ttk.Label(income, text=settings['income_amount'])
+            income.grid(row=1, column=1)
+
+
+
         #this is the expense tab, this will be used for tracking and inputing expenses
         def expense_tab():
             #this builds the frame
@@ -252,6 +291,9 @@ def main_menu(settings):
         #this is a button for the user to click on to change to the settings tab
         settings_btn = ttk.Button(root, text="Settings", command=settings_tab)
         settings_btn.grid(row=0, column=1)
+
+        income_btn = ttk.Button(root, text="Income",command=income_tab)
+        income_btn.grid(row=0, column=2)
 
         #this is a button for the user to click on to change to the expenses tab
         expense_btn = ttk.Button(root, text="Expenses", command=expense_tab)
